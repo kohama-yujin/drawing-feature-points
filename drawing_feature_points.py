@@ -27,10 +27,11 @@ class DrawingFeaturePoints:
             # 画像ファイルの拡張子を確認
             if image.endswith(('.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.gif')):
                 fullpath = os.path.join(image_folder, image)
-                img = cv2.imread(fullpath)
+                img = cv2.imread(fullpath, cv2.IMREAD_UNCHANGED)
                 if img is not None:
                     loaded_all_images.append(img)
-        return loaded_all_images
+                    print(img.shape)
+        self.loaded_all_images = loaded_all_images
 
     """ 指定したフォルダ内の特徴点データをすべて読み込む関数 """
     def load_points(self):
@@ -71,7 +72,13 @@ class DrawingFeaturePoints:
                         loaded_points.append(load_point)
             # ファイル全体の特徴点データをリストに追加
             loaded_all_points.append(loaded_points)
-        return loaded_all_points
+        self.loaded_all_points = loaded_all_points
+    
+    """ 特徴点を描画する関数 """
+    def run(self):
+        cv2.circle(self.loaded_all_images[0], (100,100), 2, (255, 0, 0, 255), -1)
+        cv2.imwrite('1_landmark_plot.png', self.loaded_all_images[0])
+
 
 if __name__ == "__main__":
     # クラスのインスタンス
@@ -81,9 +88,8 @@ if __name__ == "__main__":
     drawing_feature_points = DrawingFeaturePoints(image_folder, point_folder, json_folder)
     
     # 画像の読み込み
-    loaded_all_images = drawing_feature_points.load_images()
+    drawing_feature_points.load_images()
     # 特徴点データの読み込み
-    loaded_all_points = drawing_feature_points.load_points()
+    drawing_feature_points.load_points()
 
-    print(loaded_all_images)
-    print(loaded_all_points)
+    drawing_feature_points.run()
