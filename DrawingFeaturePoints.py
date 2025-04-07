@@ -45,11 +45,17 @@ class DrawingFeaturePoints:
     #
     def load_images(self):
         # 画像ファイルの拡張子を確認
-        if self.image_path.endswith((".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".gif")):
+        # if self.image_path.endswith((".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".gif")):
+        if self.image_path.endswith((".jpg", ".jpeg", ".png")):
             # 画像の読み込み
-            img = cv2.imread(self.output_path, cv2.IMREAD_UNCHANGED)
+            img = cv2.imread(self.image_path, cv2.IMREAD_UNCHANGED)
             if img is not None:
                 self.loaded_image = img
+        else:
+            # 画像ファイルの拡張子が無効な場合
+            raise ValueError(
+                "Invalid image file format. Supported formats: jpg, jpeg, png."
+            )
 
     #
     # 指定した特徴点データを読み込む関数
