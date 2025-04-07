@@ -28,6 +28,7 @@ def load_points(point_folder):
                         print(part)
             
                         #points = [tuple(map(float, parts[0].split(','))) ]
+                        #sss
     return loaded_points
 
 if __name__ == "__main__":
