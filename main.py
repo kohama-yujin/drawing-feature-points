@@ -20,9 +20,14 @@ def load_points(point_folder):
         # 特徴点データファイルの拡張子を確認
         if point_file.endswith('.txt'):
             fullpath = os.path.join(point_folder, point_file)
+            # 特徴点データを読み込む
             with open(fullpath, 'r') as f:
-                points = [tuple(map(float, line.strip().split(','))) for line in f]
-                loaded_points.append(points)
+                for line in f:
+                    parts = line.split()
+                    for part in parts:
+                        print(part)
+            
+                        #points = [tuple(map(float, parts[0].split(','))) ]
     return loaded_points
 
 if __name__ == "__main__":
