@@ -33,3 +33,4 @@ if __name__ == "__main__":
     loaded_images = load_images(image_folder)
     # 特徴点データの読み込み
     loaded_points = load_points(point_folder)
+    print(load_points)
