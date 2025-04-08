@@ -36,7 +36,7 @@
 
 ### 1. 特徴点データの準備
 特徴点データは`.dat`ファイルとして準備します。各行には、特徴点の座標や色、形状、半径を記載します。
-- 先頭２列に座標（x,y）を記載
+- 先頭２列に座標（x, y）を記載
 - その後ろに色、形状、半径を記載（順不同、省略可）
 > ※細かい設定方法は「色の指定方法」「形状の指定方法」の項目を参照してください。
 - 何も指定しない場合、デフォルトで`red circle 3px`が指定されます
@@ -61,14 +61,10 @@
 このツールは、OpenCVの`cv2.imread`を使用して画像を読み込むため、さまざまな画像形式に対応しています。**詳細な対応形式についてはここでは記載しません**。対応形式に関しては、[OpenCV公式ドキュメント](https://docs.opencv.org)を参照してください。
 
 
-### 3. 実行例
+### 3. 実行
+実行時、以下のようなオプションを指定することができます(順不同)。  
 
-以下のように実行して、特徴点を画像に描画します。
-```bash
-python3 main.py -i ./image/sample.png -p ./points_data/sample.dat
-```
-
-## オプション一覧
+#### オプション一覧
 | オプション | 説明 |
 | :--- | :--- |
 | -i    | 入力画像のパス(必須) |
@@ -78,3 +74,17 @@ python3 main.py -i ./image/sample.png -p ./points_data/sample.dat
 | -s    | 形状の指定 |
 | -r    | 半径の指定 |
 | --shift | 画像の中心を原点とする場合 |
+
+#### 実行例
+以下のように実行して、特徴点を画像に描画します。
+```bash
+python3 main.py -i ./image/sample.png -p ./points_data/sample.dat
+```
+半径5pxの青い円を描画したい場合
+```bash
+python3 main.py -i ./image/sample.png -p ./points_data/sample.dat -r 5px -c blue -s circle
+```
+特徴点データの座標が画像の中心を原点としている場合
+```bash
+python3 main.py -i ./image/sample.png -p ./points_data/sample.dat --shift
+```
