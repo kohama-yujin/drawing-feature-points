@@ -100,3 +100,9 @@ python3 main.py -i ./image/sample.png -p ./points_data/sample.dat --shift
 - 16進数カラーコード（例：`#FF5733`, `#fff`）
 
 色名は`color_options/colors.dat`にあるものが使用できます。ここに色名を追加すると色名指定ができるようになります。
+
+### 形状の指定方法
+設定できる形状は以下の3つです。
+- `circle`：円
+- `square`：正方形
+- `diamond`:ひし形
