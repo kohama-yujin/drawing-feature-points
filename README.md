@@ -62,7 +62,7 @@
 
 
 ### 3. 実行
-実行時、以下のようなオプションを指定することができます(順不同)。  
+実行時、以下のようなオプションを指定することができます(順不同、省略可)。
 
 #### オプション一覧
 | オプション | 説明 |
@@ -88,3 +88,14 @@ python3 main.py -i ./image/sample.png -p ./points_data/sample.dat -r 5px -c blue
 ```bash
 python3 main.py -i ./image/sample.png -p ./points_data/sample.dat --shift
 ```
+## 詳細な設定
+### 優先順位
+色、形状、半径を指定した場合の優先順位は以下のとおりです。
+デフォルトの設定(`red circle 3px`) < 実行時のオプション設定 < `.dat`内の設定
+
+### 色の指定方法
+色は以下の方法で指定できます。
+- 色名（例：`red`, `blue`, `green`）
+- 16進数カラーコード（例：`#FF5733`, `#fff`）
+
+色名は`color_options/colors.dat`にあるものが使用できます。ここに色名を追加すると色名指定ができるようになります。
