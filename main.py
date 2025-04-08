@@ -42,7 +42,7 @@ def main():
 
     # 描画クラスのインスタンス
     drawer = dfp.DrawingFeaturePoints(
-        args.i, args.p, args.s, args.r, args.c, args.shift, args.o
+        args.i, args.p, args.o, args.s, args.r, args.c, args.shift
     )
     # 描画を実行
     drawer.run()

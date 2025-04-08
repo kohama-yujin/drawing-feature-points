@@ -1,6 +1,5 @@
 import cv2
-import os
-import json
+import HexRGBConverter as hexrgb
 
 
 #
@@ -14,17 +13,17 @@ class DrawingFeaturePoints:
         # パスを指定
         self.image_path = image_path
         self.points_path = points_path
-        self.output_path = output_path
-        # オプション入力
-        self.shape = shape
-        self.radius = radius
-        self.color = color
-        # 画像の中心を原点にするかどうか
-        self.shift = shift
+        self.output_path = output_path if output_path else "output.png"
         # 形状のリスト
         self.shapes = ["circle"]
         # 色のリスト
         self.colors = self.load_colors("color_options/colors.dat")
+        # オプションのデフォルト値を設定
+        self.shape = shape if shape else "circle"
+        self.radius = radius if radius else "5px"
+        self.color = color if color else "red"
+        # 画像の中心を原点にするかどうか
+        self.shift = shift
 
     #
     # 色の辞書を作成する関数
@@ -72,8 +71,12 @@ class DrawingFeaturePoints:
                     parts = line.split()
                     # 座標を取得
                     point = tuple(map(int, parts[0:2]))
-                    print(point)
+                    # 座標以外のパラメータのデフォルト値を設定
+                    shape = self.shape
+                    radius = int(self.radius.split("px")[0])
+                    color = self.colors[self.color]
 
+                    # 座標以外のパラメータを設定
                     for part in parts:
                         # 形状を取得
                         if part in self.shapes:
@@ -98,19 +101,23 @@ class DrawingFeaturePoints:
         self.load_images()
         # 特徴点データの読み込み
         self.load_points()
-        print(self.loaded_image)
-        print(self.loaded_points)
 
-        # # 特徴点を描画
-        # for index, img in enumerate(self.loaded_all_images):
-        #     for points_data in self.loaded_all_points[index]:
-        #         # 円を描画
-        #         if points_data[0] == "circle":
-        #             cv2.circle(
-        #                 img,
-        #                 points_data[1],
-        #                 points_data[2],
-        #                 (255, 0, 0, 255),
-        #                 -1,
-        #             )
-        #     cv2.imwrite(f"{self.output_folder}/{self.image_names[index]}", img)
+        # 色の変換
+        color_converter = hexrgb.HexRGBConverter()
+
+        # 特徴点を描画
+        for point_data in self.loaded_points:
+            # 色の変換
+            rgb = color_converter.hex_to_rgb(point_data[3])
+
+            # 円を描画
+            if point_data[0] == "circle":
+                cv2.circle(
+                    self.loaded_image,
+                    point_data[1],
+                    point_data[2],
+                    (rgb[2], rgb[1], rgb[0], 255),  # OpenCVはBGR形式
+                    -1,
+                )
+        cv2.imwrite(self.output_path, self.loaded_image)
+        print(f'Output image saved to "{self.output_path}"')
