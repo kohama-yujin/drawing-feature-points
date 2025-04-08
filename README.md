@@ -39,9 +39,8 @@
 
 例 (`points.dat`):
 
-`100 100`
-
-`150 100 3px red circle`
+100 100  
+150 100 3px red circle  
 100 150 #2bbaaf
 150 150 green
 200 200 5px
