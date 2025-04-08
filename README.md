@@ -24,7 +24,7 @@
 
 1. このリポジトリをクローンします。
     ```bash
-    git clone https://github.com/username/feature-point-drawing-tool.git
+    git clone https://github.com/kohama-yujin/feature-points-drawing.git
     ```
 
 2. 必要なライブラリをインストールします。
