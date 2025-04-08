@@ -1,5 +1,5 @@
 import argparse
-import DrawingFeaturePoints as dfp
+import FeaturePointsDrawing as dfp
 
 
 def main():
@@ -41,7 +41,7 @@ def main():
     args = parser.parse_args()
 
     # 描画クラスのインスタンス
-    drawer = dfp.DrawingFeaturePoints(
+    drawer = dfp.FeaturePointsDrawing(
         args.i, args.p, args.o, args.s, args.r, args.c, args.shift
     )
     # 描画を実行

@@ -7,7 +7,7 @@ import HexRGBConverter as hexrgb
 #
 # 特徴点を描画するクラス
 #
-class DrawingFeaturePoints:
+class FeaturePointsDrawing:
 
     def __init__(
         self, image_path, points_path, output_path, shape, radius, color, shift
