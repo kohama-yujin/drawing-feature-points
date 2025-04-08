@@ -35,7 +35,7 @@ def main():
         help="Using the center of the image as the origin",
     )
     # 出力画像のパス
-    parser.add_argument("--o", help="Output image path")
+    parser.add_argument("-o", help="Output image path")
 
     # 引数解析
     args = parser.parse_args()

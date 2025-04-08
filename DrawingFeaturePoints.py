@@ -1,5 +1,6 @@
 import cv2
 import HexRGBConverter as hexrgb
+import numpy as np
 
 
 #
@@ -15,12 +16,12 @@ class DrawingFeaturePoints:
         self.points_path = points_path
         self.output_path = output_path if output_path else "output.png"
         # 形状のリスト
-        self.shapes = ["circle"]
+        self.shapes = ["circle", "square", "diamond"]
         # 色のリスト
         self.colors = self.load_colors("color_options/colors.dat")
         # オプションのデフォルト値を設定
         self.shape = shape if shape else "circle"
-        self.radius = radius if radius else "5px"
+        self.radius = radius if radius else "3px"
         self.color = color if color else "red"
         # 画像の中心を原点にするかどうか
         self.shift = shift
@@ -43,18 +44,14 @@ class DrawingFeaturePoints:
     # 指定した画像を読み込む関数
     #
     def load_images(self):
-        # 画像ファイルの拡張子を確認
-        # if self.image_path.endswith((".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".gif")):
-        if self.image_path.endswith((".jpg", ".jpeg", ".png")):
-            # 画像の読み込み
-            img = cv2.imread(self.image_path, cv2.IMREAD_UNCHANGED)
-            if img is not None:
-                self.loaded_image = img
-        else:
-            # 画像ファイルの拡張子が無効な場合
-            raise ValueError(
-                "Invalid image file format. Supported formats: jpg, jpeg, png."
-            )
+        # 画像の読み込み
+        img = cv2.imread(self.image_path, cv2.IMREAD_UNCHANGED)
+        if img is not None:
+            self.loaded_image = img
+        # 画像中心を原点とする場合
+        if self.shift:
+            height, width = img.shape[:2]
+            self.center_position = (width // 2, height // 2)
 
     #
     # 指定した特徴点データを読み込む関数
@@ -71,6 +68,12 @@ class DrawingFeaturePoints:
                     parts = line.split()
                     # 座標を取得
                     point = tuple(map(int, parts[0:2]))
+                    # 画像中心を原点とする場合
+                    if self.shift:
+                        point = tuple(
+                            x + y for x, y in zip(point, self.center_position)
+                        )
+
                     # 座標以外のパラメータのデフォルト値を設定
                     shape = self.shape
                     radius = int(self.radius.split("px")[0])
@@ -101,7 +104,6 @@ class DrawingFeaturePoints:
         self.load_images()
         # 特徴点データの読み込み
         self.load_points()
-
         # 色の変換
         color_converter = hexrgb.HexRGBConverter()
 
@@ -114,10 +116,41 @@ class DrawingFeaturePoints:
             if point_data[0] == "circle":
                 cv2.circle(
                     self.loaded_image,
-                    point_data[1],
-                    point_data[2],
+                    point_data[1],  # 座標
+                    point_data[2],  # 半径
                     (rgb[2], rgb[1], rgb[0], 255),  # OpenCVはBGR形式
-                    -1,
+                    -1,  # 塗りつぶし
                 )
+
+            # 正方形を描画
+            if point_data[0] == "square":
+                # 正方形の4つの頂点を計算
+                offsets = np.array([[-1, -1], [1, -1], [1, 1], [-1, 1]]) * point_data[2]
+                pts = np.array(point_data[1], dtype=np.int32) + offsets
+                # reshapeして4次元配列に変換
+                # OpenCVのfillPoly関数は4次元配列を必要とする
+                pts = pts.reshape((-1, 1, 2))
+
+                cv2.fillPoly(
+                    self.loaded_image,
+                    [pts],  # 頂点の配列
+                    (rgb[2], rgb[1], rgb[0], 255),  # OpenCVはBGR形式
+                )
+
+            # ひし形を描画
+            if point_data[0] == "diamond":
+                # ひし形の4つの頂点を計算
+                offsets = np.array([[0, -1], [1, 0], [0, 1], [-1, 0]]) * point_data[2]
+                pts = np.array(point_data[1], dtype=np.int32) + offsets
+                # reshapeして4次元配列に変換
+                # OpenCVのfillPoly関数は4次元配列を必要とする
+                pts = pts.reshape((-1, 1, 2))
+
+                cv2.fillPoly(
+                    self.loaded_image,
+                    [pts],  # 頂点の配列
+                    (rgb[2], rgb[1], rgb[0], 255),  # OpenCVはBGR形式
+                )
+
         cv2.imwrite(self.output_path, self.loaded_image)
         print(f'Output image saved to "{self.output_path}"')
