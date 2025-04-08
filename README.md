@@ -31,3 +31,30 @@
     cd feature-point-drawing-tool
     pip install -r requirements.txt
     ```
+
+## 使用方法
+
+### 1. 特徴点データの準備
+特徴点データを`.dat`ファイルとして準備します。各行には、特徴点の座標、形状、半径、色を記載します。
+
+例 (`points.dat`):
+### 2. ツールの実行
+
+以下のコードを使用して、特徴点を画像に描画します。
+
+```python
+from DrawingFeaturePoints import DrawingFeaturePoints
+
+# DrawingFeaturePointsインスタンスを作成
+drawer = DrawingFeaturePoints(
+    image_path="input_image.jpg",  # 入力画像ファイルのパス
+    points_path="points.dat",      # 特徴点データのパス
+    output_path="output_image.png", # 出力画像のパス
+    shape="circle",                # 描画する形状（circle, square, diamond）
+    radius="5px",                  # 半径（例："5px"）
+    color="blue",                  # 色（色名または16進数カラーコード）
+    shift=True                     # 画像中心を原点にするかどうか
+)
+
+# 特徴点を描画
+drawer.run()
