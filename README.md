@@ -29,7 +29,7 @@
 
 2. 必要なライブラリをインストールします。
     ```bash
-    cd feature-point-drawing-tool
+    cd feature-points-drawing
     pip install -r requirements.txt
     ```
 
