@@ -1,6 +1,7 @@
 import cv2
-import HexRGBConverter as hexrgb
 import numpy as np
+
+import HexRGBConverter as hexrgb
 
 
 #
