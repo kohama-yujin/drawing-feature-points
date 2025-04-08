@@ -38,13 +38,15 @@
 特徴点データは`.dat`ファイルとして準備します。各行には、特徴点の座標を記載します。
 
 例 (`points.dat`):
-`100 100  150 100 3px red circle
+
+	`npm run dev`100 100  150 100 3px red circle
 100 150 #2bbaaf
 150 150 green
 200 200 5px
 250 200 5px diamond
 200 250 square black 5px
-250 250 black square 5px`
+250 250 black square 5px
+	`npm run dev`
 
 ### 2. 実行例
 
