@@ -87,7 +87,7 @@ python3 main.py -i ./image/sample.png -p ./points_data/sample.dat -r 5px -c blue
 ```
 特徴点データの座標が画像の中心を原点としている場合
 ```bash
-python3 main.py -i ./image/sample.png -p ./points_data/sample.dat --shift
+python3 main.py -i ./image/sample.png -p ./points_data/sample_shift.dat --shift
 ```
 ## 詳細な設定
 ### 優先順位
